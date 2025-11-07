@@ -1,0 +1,78 @@
+/* Style for container */
+.container {
+  margin-top: 2rem;
+}
+
+/* Style for heading */
+h2 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Style for form */
+form {
+  margin-bottom: 2rem;
+}
+
+/* Style for form group */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group textarea {
+  width: 200%;
+}
+
+/* Style for labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Style for select inputs */
+select,
+input[type="text"],
+textarea {
+  width: 200%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+/* Style for buttons */
+button {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #6C55F9;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+}
+
+/* Style for textareas */
+textarea {
+  resize: vertical;
+}
+
+/* Style for margins */
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}

@@ -1,0 +1,102 @@
+<!-- bulk_email_sender.html -->
+
+{% extends 'layout/dashboard.html' %}
+{% block title %}Bulk-Email-Sender{% endblock title %}
+{% load static %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bulk_email_sender.css' %}">
+    <script src="{% static 'js/bulk_email_sender.js' %}"></script>
+
+    <!-- bulk_email_sender.html -->
+
+    <div class="container ml-3">
+        <h2 class="mt-4">Bulk Email Sender</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'bulk_email_sender' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email_option">Email Option:</label>
+                <select id="email_option" name="email_option">
+                    <option value="comma_separated">Select Any Option</option>
+                    <option value="comma_separated">Comma Separated</option>
+                    <option value="csv_file">CSV File</option>
+                </select>
+            </div>
+
+            <div id="comma_separated_email" class="email-input">
+                <!-- Add your comma-separated email input here -->
+                <label for="email_list">Bulk Emails (Comma Separated):</label>
+                <div class="form-floating mb-3">
+                    <textarea id="email_list" name="email_list" type="text" class="form-control"
+                              placeholder="Enter bulk email addresses, separated by commas" style="height: 100px"></textarea>
+                </div>
+            </div>
+
+            <div id="csv_file_email" class="email-input">
+                <!-- Add your CSV file email input here -->
+                <label for="csv_file">CSV File:</label>
+                <input type="file" id="csv_file" name="csv_file">
+            </div>
+
+            <!-- Schedule Date and Time Fields -->
+            <div class="form-group">
+                <label for="schedule_date">Schedule Date:</label>
+                <input type="date" id="schedule_date" name="schedule_date">
+            </div>
+            <div class="form-group">
+                <label for="schedule_time">Schedule Time:</label>
+                <input type="time" id="schedule_time" name="schedule_time">
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter the subject">
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <div class="form-floating mb-3">
+                    <textarea id="message" type="text" class="form-control" placeholder="Enter the message here"
+                              name="message" style="height: 100px" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="attachments">Attachments:</label>
+                <input type="file" id="attachments" name="attachments" multiple>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary d-grid w-90" type="submit">Send Emails</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'js/bulk_email_sender.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var emailOption = document.getElementById("email_option");
+            var commaSeparatedEmail = document.getElementById("comma_separated_email");
+            var csvFileEmail = document.getElementById("csv_file_email");
+
+            emailOption.addEventListener("change", function () {
+                if (emailOption.value === "comma_separated") {
+                    commaSeparatedEmail.style.display = "block";
+                    csvFileEmail.style.display = "none";
+                } else if (emailOption.value === "csv_file") {
+                    commaSeparatedEmail.style.display = "none";
+                    csvFileEmail.style.display = "block";
+                } else {
+                    commaSeparatedEmail.style.display = "none";
+                    csvFileEmail.style.display = "none";
+                }
+            });
+        });
+    </script>
+{% endblock body %}

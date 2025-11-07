@@ -1,0 +1,340 @@
+{% extends 'landing/base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+
+    {% load static %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <meta name="copyright" content="MACode ID, https://macodeid.com/">
+        <title></title>
+
+
+    </head>
+    <body>
+
+    <!-- Back to top button -->
+
+
+    <div class="container">
+        <div class="page-banner home-banner">
+            <div class="row align-items-center flex-wrap-reverse h-100">
+                <div class="col-md-6 py-5 wow fadeInLeft">
+                    <h1 class="mb-4">Meet <span style="color: #6C55F9">SmartSync</span></h1>
+                    <p class="text-lg text-grey mb-5">SmartSync is a versatile tool that helps businesses grow. It combines different features like content creation, email automation, invoice generation, and text translation in a single platform.</p>
+                    <a href="#service" class="btn btn-primary btn-split">Get Started
+                        <div class="fab"><span class="mai-play"></span></div>
+                    </a>
+                </div>
+                <div class="col-md-6 py-5 wow zoomIn">
+                    <div class="img-fluid text-center ml-auto">
+                        <img src="{% static 'img/banner_image_1.svg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+            <a href="#about" class="btn-scroll" data-role="smoothscroll"><span class="mai-arrow-down"></span></a>
+        </div>
+    </div>
+    </header>
+
+    <div class="page-section" id="service">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card-service wow fadeInUp">
+                        <div class="header">
+                            {% load static %}
+                            <img src="{% static 'icons/text1.svg' %}" height="50%" width="50%" alt="">
+                        </div>
+                        <div class="body">
+                            <h5 class="text-secondary">Text Generation</h5>
+                            <p>We help you generate your Content & Blogs to enhance your business.</p>
+                            <a href="{% url 'Content Generator' %}" class="btn btn-primary">Try Now!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card-service wow fadeInUp">
+                        <div class="header">
+                            {% load static %}
+                            <img src="{% static 'icons/translation1.svg' %}" height="50%" width="50%" alt="">
+                        </div>
+                        <div class="body">
+                            <h5 class="text-secondary">Text Translation</h5>
+                            <p>We help you translate your Content into different languages across the globe.</p>
+                            <a href="{% url 'translation' %}" class="btn btn-primary">Try Now!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card-service wow fadeInUp">
+                        <div class="header">
+                            {% load static %}
+                            <img src="{% static 'icons/invoice1.svg' %}" height="50%" width="50%" alt="">
+                        </div>
+                        <div class="body">
+                            <h5 class="text-secondary">Invoice Generation</h5>
+                            <p>We help you generate your Invoices for your clients with an ease.</p>
+                            <a href="{% url 'create-invoice' %}" class="btn btn-primary">Try Now!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card-service wow fadeInUp">
+                        <div class="header">
+                            {% load static %}
+                            <img src="{% static 'icons/email1.svg' %}" height="50%" width="50%" alt="">
+                        </div>
+                        <div class="body">
+                            <h5 class="text-secondary">Email Automation</h5>
+                            <p>We help you automate your Emails for your clients and content marketing. </p>
+                            <a href="{% url 'bulk_email_sender' %}" class="btn btn-primary">Try Now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .container -->
+    </div> <!-- .page-section -->
+
+
+    {#  <div class="page-section banner-seo-check">#}
+    {##}
+    {#    <div class="wrap bg-image" style="background-image: url(../..);">#}
+    {#      <div class="container text-center">#}
+    {#        <div class="row justify-content-center wow fadeInUp">#}
+    {#          <div class="col-lg-8">#}
+    {#            <h2 class="mb-4">Generate Your Content Here!</h2>#}
+    {#            <form action="#">#}
+    {##}
+    {#                <input type="text" class="form-control" placeholder="E.g effective marketing techniques">#}
+    {##}
+    {#                <button type="submit" class="btn btn-success">Genarate Now</button>#}
+    {#            </form>#}
+    {#          </div>#}
+    {#        </div>#}
+    {#      </div> <!-- .container -->#}
+    {#    </div> <!-- .wrap -->#}
+    {#  </div> <!-- .page-section -->#}
+
+    {#  <div class="page-section" id="plans">#}
+    {#    <div class="container">#}
+    {#      <div class="text-center wow fadeInUp">#}
+    {#        <div class="subhead">Pricing Plan</div>#}
+    {#        <h2 class="title-section">Choose plan the right for you</h2>#}
+    {#        <div class="divider mx-auto"></div>#}
+    {#      </div>#}
+    {#      <div class="row mt-5">#}
+    {#        <div class="col-lg-4 py-3 wow zoomIn">#}
+    {#          <div class="card-pricing">#}
+    {#            <div class="header">#}
+    {#              <div class="pricing-type">Basic</div>#}
+    {#              <div class="price">#}
+    {#                <span class="dollar">$</span>#}
+    {#                <h1>0<span class="suffix">.00</span></h1>#}
+    {#              </div>#}
+    {#              <h5>Per Month</h5>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <p>5000 Words <span class="suffix">Limit</span></p>#}
+    {#              <p>Unlimited <span class="suffix">Invoices</span></p>#}
+    {#              <p>Free Text <span class="suffix">Translation</span></p>#}
+    {#              <p>24/7 <span class="suffix">Support</span></p>#}
+    {#            </div>#}
+    {#            <div class="footer">#}
+    {#              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-lg-4 py-3 wow zoomIn">#}
+    {#          <div class="card-pricing marked">#}
+    {#            <div class="header">#}
+    {#              <div class="pricing-type">Standard</div>#}
+    {#              <div class="price">#}
+    {#                <span class="dollar">$</span>#}
+    {#                <h1>9<span class="suffix">.99</span></h1>#}
+    {#              </div>#}
+    {#              <h5>Per Month</h5>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <p>50k+ Words <span class="suffix">Limit</span></p>#}
+    {#              <p>Unlimited <span class="suffix">Invoices</span></p>#}
+    {#              <p>Free Text <span class="suffix">Translation</span></p>#}
+    {#              <p>24/7 <span class="suffix">Support</span></p>#}
+    {#            </div>#}
+    {#            <div class="footer">#}
+    {#              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-lg-4 py-3 wow zoomIn">#}
+    {#          <div class="card-pricing">#}
+    {#            <div class="header">#}
+    {#              <div class="pricing-type">Professional</div>#}
+    {#              <div class="price">#}
+    {#                <span class="dollar">$</span>#}
+    {#                <h1>29<span class="suffix">.99</span></h1>#}
+    {#              </div>#}
+    {#              <h5>Per Month</h5>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <p>Generate Unlimited <span class="suffix">Words</span></p>#}
+    {#              <p>Unlimited <span class="suffix">Invoices</span></p>#}
+    {#              <p>Free Text <span class="suffix">Translation</span></p>#}
+    {#              <p>24/7 <span class="suffix">Support</span></p>#}
+    {#            </div>#}
+    {#            <div class="footer">#}
+    {#              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#      </div>#}
+    {#    </div> <!-- .container -->#}
+    {#  </div> <!-- .page-section -->#}
+
+    <!-- Banner info -->
+    <div class="page-section banner-info">
+        <div class="wrap bg-image" style="background-image: url(../..);">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 py-3 pr-lg-5 wow fadeInUp">
+                        <h2 class="title-section">Content Generation to Improve <br>Brand Visibility</h2>
+                        <div class="divider"></div>
+                        <p>We're an experienced and talented team of passionate consultants who breathe with search
+                            engine marketing.</p>
+
+                        <ul class="theme-list theme-list-light text-white">
+                            <li>
+                                <div class="h5">Generate Content Strategy</div>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                    tempor</p>
+                            </li>
+                            <li>
+                                <div class="h5">Automate Emails Marketing</div>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                    tempor</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 py-3 wow fadeInRight">
+                        <div class="img-fluid text-center">
+                            {% load static %}
+                            <img src="{% static 'img/banner_image_2.svg' %}" alt="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .wrap -->
+    </div> <!-- .page-section -->
+
+    <div class="page-section" id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 py-3 wow fadeInUp">
+                    <span class="subhead">About us</span>
+                    <h2 class="title-section">SmartSync: #1 Company that Support Businesses to Grow Faster.</h2>
+                    <div class="divider"></div>
+
+                    <p>SmartSync supports businesses to grow faster by providing a range of services, including:
+                    <li>Content generation to help businesses create engaging and informative content to promote their
+                        brand and reach their target audience.
+                    </li>
+                    <li>Text translation to help businesses expand their reach by translating their content into
+                        multiple languages.
+                    </li>
+                    <li>Invoice generation to simplify the invoicing process, saving businesses time and reducing manual
+                        effort.
+                    </li>
+                    <li>Email automation to streamline and automate email marketing campaigns, saving time and
+                        increasing efficiency.
+                    </li>
+                    </p>
+                    <a href="{% url 'register' %}" class="btn btn-primary mt-3">Register Now</a>
+                </div>
+                <div class="col-lg-6 py-3 wow fadeInRight">
+                    <div class="img-fluid py-3 text-center">
+                        {% load static %}
+                        <img src="{% static 'img/about_frame.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .container -->
+    </div> <!-- .page-section -->
+
+    <!-- Blog -->
+    {#  <div class="page-section" id="blog">#}
+    {#    <div class="container">#}
+    {#      <div class="text-center wow fadeInUp">#}
+    {#        <div class="subhead">Our Blog</div>#}
+    {#        <h2 class="title-section">Read Latest News</h2>#}
+    {#        <div class="divider mx-auto"></div>#}
+    {#      </div>#}
+    {##}
+    {#      <div class="row mt-5">#}
+    {#        <div class="col-lg-4 py-3 wow fadeInUp">#}
+    {#          <div class="card-blog">#}
+    {#            <div class="header">#}
+    {#              <div class="post-thumb">#}
+    {#                {% load static %}#}
+    {#                <img src="{% static 'img/blog/blog-1.jpg' %}" alt="">#}
+    {##}
+    {#              </div>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>#}
+    {#              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-lg-4 py-3 wow fadeInUp">#}
+    {#          <div class="card-blog">#}
+    {#            <div class="header">#}
+    {#              <div class="post-thumb">#}
+    {#                {% load static %}#}
+    {#                <img src="{% static 'img/blog/blog-2.jpg' %}" alt="">#}
+    {#              </div>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>#}
+    {#              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-lg-4 py-3 wow fadeInUp">#}
+    {#          <div class="card-blog">#}
+    {#            <div class="header">#}
+    {#              <div class="post-thumb">#}
+    {#                {% load static %}#}
+    {#                <img src="{% static 'img/blog/blog-3.jpg' %}" alt="">#}
+    {#              </div>#}
+    {#            </div>#}
+    {#            <div class="body">#}
+    {#              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>#}
+    {#              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#        </div>#}
+    {##}
+    {#        <div class="col-12 mt-4 text-center wow fadeInUp">#}
+    {#          <a href="/blog" class="btn btn-primary">View More</a>#}
+    {#        </div>#}
+    {#      </div>#}
+    {#    </div>#}
+    {#  </div>#}
+
+
+    </body>
+    </html>
+{% endblock body %}

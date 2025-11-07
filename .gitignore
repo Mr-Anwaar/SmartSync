@@ -1,0 +1,7 @@
+db.sqlite3
+dump.rdb
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
+#FYP.drawio
+uploads

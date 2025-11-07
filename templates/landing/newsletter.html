@@ -1,0 +1,11 @@
+{% extends 'landing/base.html' %}
+
+{% block title %}Subscription{% endblock title %}
+
+{% block content %}
+    <form method="post" action="{% url 'subscribe_newsletter' %}">
+        {% csrf_token %}
+        <input type="email" name="email" class="form-control" placeholder="Enter your email.." required>
+        <button type="submit" class="btn btn-success btn-block mt-2">Subscribe</button>
+    </form>
+{% endblock %}

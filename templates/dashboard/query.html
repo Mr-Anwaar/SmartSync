@@ -1,0 +1,677 @@
+{% extends 'layout/dashboard.html' %}
+{% block title %}AI-ChatBot{% endblock title %}
+{% load static %}
+{% block body %}
+
+<!-- query.html -->
+<head>
+    <title>ChatBot Assistant</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <!--        {#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">#}-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+         <script>
+    $(document).ready(function () {
+        // Function to get the CSRF token from the cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Function to append a message to the response container
+        function appendMessage(role, content) {
+            var messageHtml = '<div class="' + role + '-msg">';
+            messageHtml += '<img src="{% static 'img/' + role + '-icon.png' %}" alt="' + role + ' Icon" class="' + role + '-icon">';
+            messageHtml += '<span>' + content + '</span>';
+            messageHtml += '</div>';
+            $('#response').append(messageHtml);
+        }
+
+        // Send the form on enter keypress and avoid if shift is pressed
+        $('#prompt').keypress(function (event) {
+            if (event.keyCode === 13 && !event.shiftKey) {
+                event.preventDefault();
+                $('#form').submit();
+            }
+        });
+
+        $('#form').on('submit', function (event) {
+            event.preventDefault();
+
+            var prompt = $('#prompt').val().trim();
+            var outputIn = $('#output-in').val();
+            var tone = $('#tone').val();
+            var writingStyle = $('#writing-style').val();
+
+            if (prompt !== '') {
+                var dateTime = new Date();
+                var time = dateTime.toLocaleTimeString();
+                var userPromptHtml = '<div class="user-msg">';
+                userPromptHtml += '<img src="{% static 'img/user-icon.png'%}" alt="User Icon" class="user-icon">';
+                userPromptHtml += '<span>' + prompt + '</span>';
+                userPromptHtml += '</div>';
+                $('#response').append(userPromptHtml);
+                $('#prompt').val('');
+
+                $.ajaxSetup({
+                    headers: {'X-CSRFToken': getCookie('csrftoken')}
+                });
+
+                $.ajax({
+                    url: 'content-generator',
+                    type: 'POST',
+                    data: {prompt: prompt, output_in: outputIn, tone: tone, writing_style: writingStyle},
+                    dataType: 'text',  // Change the data type to text
+                    success: function (data) {
+                        appendMessage('bot', data);  // Append the response message
+
+                        // Restore copy button after 3 seconds
+                        setTimeout(function () {
+                            $('.copy-btn').html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M6 1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1zm5 2h-1a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a1 1 0 0 0-1 1v1h10V4a1 1 0 0 0-1-1zM4 5h8v1H4V5zm0 2h8v6H4V7zm2 2a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0V9zm1-1a1 1 0 0 0-2 0v2a1 1 0 0 0 2 0V9z"/></svg>');
+                            $('.copy-btn').prop('disabled', false);
+                        }, 3000);
+                    }
+                });
+            }
+        });
+
+        // Copy to clipboard function
+        var clipboard = new ClipboardJS('.copy-btn');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            var button = e.trigger;
+            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16"><path d="M0 9l5 5L16 4l-1.5-1.5L5 12.179 1.5 8.75 0 10.25z"/></svg>';
+            button.disabled = true;
+        });
+    });
+</script>
+    <style>
+        /* CSS styling code goes here */
+        {#*{background-color: #ffffff;}#}
+        .input-group .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .user-msg {
+            background-color: #ECECF1;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .bot-msg {
+            background-color: #d9edf7;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bot-msg span {
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+
+        .copy-btn {
+            padding: 0;
+            margin-left: 5px;
+        }
+
+        .bi {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+        }
+
+        .bi-clipboard {
+            width: 1.2em;
+            height: 1.2em;
+        }
+
+        .bi-check2 {
+            width: 1.2em;
+            height: 1.2em;
+            color: green;
+        }
+
+        {#.fixed-bottom {#}
+        {#    position: fixed;#}
+        {#    bottom: 0;#}
+        {#    width: 81%;#}
+        {#    padding: 15px;#}
+        {#    margin-left: auto;#}
+        {#    z-index: 3;#}
+
+
+/* CSS code */
+.user-icon {
+height: 20px; /* Set the desired height */
+width: 20px; /* Set the desired width */
+margin-right: 10px; /* Add a small gap to the right of the user icon */
+}
+
+.bot-icon {
+height: 25px; /* Set the desired height */
+width: 25px; /* Set the desired width */
+margin-right: 10px; /* Add a small gap to the right of the bot icon */
+}
+
+
+.user-msg,
+.bot-msg {
+    display: flex;
+    flex-direction: row; /* Display messages in a row layout */
+    align-items: flex-start; /* Align messages to the top */
+    margin-bottom: 10px;
+}
+
+.user-icon,
+.bot-icon {
+    margin-right: 10px; /* Add spacing between icon and message */
+}
+
+/* Add additional styling for user and bot messages as needed */
+.user-msg {
+    justify-content: flex-start; /* Align user messages to the right */
+    /* Add other styling for user messages */
+}
+
+.bot-msg {
+    justify-content: flex-start; /* Align bot messages to the left */
+    /* Add other styling for bot messages */
+}
+
+
+        .input-msg {
+            margin-top: 100px;
+        }
+
+        .container {
+            position: relative;
+
+        }
+
+
+        .chat-window {
+            overflow-y: scroll;
+            height: calc(100vh - 275px); /* Adjust height as needed */
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 0;
+        }
+
+        #form{
+        max-height: 100px;
+
+        }
+
+        .input-form {
+            position: sticky;
+            bottom: 0;
+            background-color: #f5f5f5;
+            z-index: 1; /* Increase z-index to ensure it stays on top of the chat window */
+        }
+
+        .input-form form {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-form input[type="text"] {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .input-form button {
+            flex-shrink: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container p-3">
+    <div class="chat-window">
+        <h3>ChatBot Assistant <span style="font-size: 18px;">(ABACIKA)</span></h3>
+        <div class="mb-3">
+            <h6>let's get started:</h6>
+        </div>
+        <div class="chat-messages">
+            <!-- Chatbot responses will be appended here -->
+            <div id="response"></div>
+        </div>
+    </div>
+    <br>
+    <div class="fixed-bottom input-form">
+        <form id="form" method="post">
+            {% csrf_token %}
+            <div class="input-group input-msg container p-3">
+                <div class="input-group">
+                    <select class="form-select" id="output-in" name="output-in">
+                        <option value="English" selected> English</option>
+                        <option value="German">Deutsch</option>
+                        <option value="Spanish">Español</option>
+                        <option value="French">Français</option>
+                        <option value="Italian">Italiano</option>
+                        <option value="Portuguese">Português</option>
+                        <option value="Polish">Polski</option>
+                        <option value="Ukrainian">Українська</option>
+                        <option value="Somali">Af Soomaali</option>
+                        <option value="Afrikaans">Afrikaans</option>
+                        <option value="Azerbaijani">Azərbaycan dili</option>
+                        <option value="Indonesian">Bahasa Indonesia</option>
+                        <option value="Malaysian Malay">Bahasa Malaysia</option>
+                        <option value="Malay">Bahasa Melayu</option>
+                        <option value="Javanese">Basa Jawa</option>
+                        <option value="Sundanese">Basa Sunda</option>
+                        <option value="Bosnian">Bosanski jezik</option>
+                        <option value="Catalan">Català</option>
+                        <option value="Czech">Čeština</option>
+                        <option value="Chichewa">Chichewa</option>
+                        <option value="Welsh">Cymraeg</option>
+                        <option value="Danish">Dansk</option>
+                        <option value="Estonian">Eesti keel</option>
+                        <option value="English (UK)">English (UK)</option>
+                        <option value="English (US)">English (US)</option>
+                        <option value="Spanish">Español</option>
+                        <option value="Esperanto">Esperanto</option>
+                        <option value="Basque">Euskara</option>
+                        <option value="French">Français</option>
+                        <option value="Irish">Gaeilge</option>
+                        <option value="Galician">Galego</option>
+                        <option value="Croatian">Hrvatski jezik</option>
+                        <option value="Xhosa">isiXhosa</option>
+                        <option value="Zulu">isiZulu</option>
+                        <option value="Icelandic">Íslenska</option>
+                        <option value="Italian">Italiano</option>
+                        <option value="Swahili">Kiswahili</option>
+                        <option value="Haitian Creole">Kreyòl Ayisyen</option>
+                        <option value="Kurdish">Kurdî</option>
+                        <option value="Latin">Latīna</option>
+                        <option value="Latvian">Latviešu valoda</option>
+                        <option value="Luxembourgish">Lëtzebuergesch</option>
+                        <option value="Lithuanian">Lietuvių kalba</option>
+                        <option value="Hungarian">Magyar</option>
+                        <option value="Malagasy">Malagasy</option>
+                        <option value="Maltese">Malti</option>
+                        <option value="Maori">Māori</option>
+                        <option value="Dutch">Nederlands</option>
+                        <option value="Norwegian">Norsk</option>
+                        <option value="Uzbek">O'zbek tili</option>
+                        <option value="Polish">Polski</option>
+                        <option value="Portuguese">Português</option>
+                        <option value="Romanian">Română</option>
+                        <option value="Sesotho">Sesotho</option>
+                        <option value="Albanian">Shqip</option>
+                        <option value="Slovak">Slovenčina</option>
+                        <option value="Slovenian">Slovenščina</option>
+                        <option value="Finnish">Suomi</option>
+                        <option value="Swedish">Svenska</option>
+                        <option value="Tagalog">Tagalog</option>
+                        <option value="Tatar">Tatarça</option>
+                        <option value="Turkish">Türkçe</option>
+                        <option value="Vietnamese">Việt ngữ</option>
+                        <option value="Yoruba">Yorùbá</option>
+                        <option value="Greek">Ελληνικά</option>
+                        <option value="Belarusian">Беларуская мова</option>
+                        <option value="Bulgarian">Български език</option>
+                        <option value="Kyrgyz">Кыр</option>
+                        <option value="Kazakh">Қазақ тілі</option>
+                        <option value="Macedonian">Македонски јазик</option>
+                        <option value="Mongolian">Монгол хэл</option>
+                        <option value="Russian">Русский</option>
+                        <option value="Serbian">Српски језик</option>
+                        <option value="Tajik">Тоҷикӣ</option>
+                        <option value="Ukrainian">Українська</option>
+                        <option value="Georgian">ქართული</option>
+                        <option value="Armenian">Հայերեն</option>
+                        <option value="Yiddish">ייִדיש</option>
+                        <option value="Hebrew">עברית</option>
+                        <option value="Uyghur">ئۇيغۇرچە</option>
+                        <option value="Urdu">اردو</option>
+                        <option value="Arabic">العربية</option>
+                        <option value="Pashto">پښتو</option>
+                        <option value="Persian">فارسی</option>
+                        <option value="Nepali">नेपाली</option>
+                        <option value="Marathi">मराठी</option>
+                        <option value="Hindi">हिन्दी</option>
+                        <option value="Bengali">বাংলা</option>
+                        <option value="Punjabi">ਪੰਜਾਬੀ</option>
+                        <option value="Gujarati">ગુજરાતી</option>
+                        <option value="Oriya">ଓଡ଼ିଆ</option>
+                        <option value="Tamil">தமிழ்</option>
+                        <option value="Telugu">తెలుగు</option>
+                        <option value="Kannada">ಕನ್ನಡ</option>
+                        <option value="Malayalam">മലയാളം</option>
+                        <option value="Sinhala">සිංහල</option>
+                        <option value="Thai">ไทย</option>
+                        <option value="Lao">ພາສາລາວ</option>
+                        <option value="Burmese">ဗမာစာ</option>
+                        <option value="Khmer">ភាសាខ្មែរ</option>
+                        <option value="Korean">한국어</option>
+                        <option value="Chinese">中文</option>
+                        <option value="Traditional Chinese">繁體中文</option>
+                        <option value="Japanese">日本語</option>
+                    </select>
+                    <select class="form-select" id="tone" name="tone">
+                        <option selected="">Select Tone</option>
+
+                        <option value="Informative">
+                            Informative
+                        </option>
+
+                        <option value="Persuasive">
+                            Persuasive
+                        </option>
+
+                        <option value="Educational">
+                            Educational
+                        </option>
+
+                        <option value="Entertaining">
+                            Entertaining
+                        </option>
+
+                        <option value="Inspirational">
+                            Inspirational
+                        </option>
+
+                        <option value="Empathetic">
+                            Empathetic
+                        </option>
+
+                        <option value="Authoritative">
+                            Authoritative
+                        </option>
+
+                        <option value="Objective">
+                            Objective
+                        </option>
+
+                        <option value="Subjective">
+                            Subjective
+                        </option>
+
+                        <option value="Analytical">
+                            Analytical
+                        </option>
+
+                        <option value="Sarcastic">
+                            Sarcastic
+                        </option>
+
+                        <option value="Humorous">
+                            Humorous
+                        </option>
+
+                        <option value="Cynical">
+                            Cynical
+                        </option>
+
+                        <option value="Nostalgic">
+                            Nostalgic
+                        </option>
+
+                        <option value="Optimistic">
+                            Optimistic
+                        </option>
+
+                        <option value="Pessimistic">
+                            Pessimistic
+                        </option>
+
+                        <option value="Critical">
+                            Critical
+                        </option>
+
+                        <option value="Ironic">
+                            Ironic
+                        </option>
+
+                        <option value="Condescending">
+                            Condescending
+                        </option>
+
+                        <option value="Colloquial">
+                            Colloquial
+                        </option>
+
+                        <option value="Formal">
+                            Formal
+                        </option>
+
+                        <option value="Casual">
+                            Casual
+                        </option>
+
+                        <option value="Thoughtful">
+                            Thoughtful
+                        </option>
+
+                        <option value="Detached">
+                            Detached
+                        </option>
+
+                        <option value="Emotional">
+                            Emotional
+                        </option>
+
+                        <option value="Descriptive">
+                            Descriptive
+                        </option>
+
+                        <option value="Narrative">
+                            Narrative
+                        </option>
+
+                        <option value="Reflective">
+                            Reflective
+                        </option>
+
+                        <option value="Didactic">
+                            Didactic
+                        </option>
+
+                        <option value="Satirical">
+                            Satirical
+                        </option>
+                    </select>
+                    <select class="form-select" id="writing-style" name="writing-style">
+                        <option selected="">Writing Style</option>
+
+                        <option value="Academic">
+                            Academic
+                        </option>
+
+                        <option value="Creative">
+                            Creative
+                        </option>
+
+                        <option value="Critical">
+                            Critical
+                        </option>
+
+                        <option value="Descriptive">
+                            Descriptive
+                        </option>
+
+                        <option value="Narrative">
+                            Narrative
+                        </option>
+
+                        <option value="Expository">
+                            Expository
+                        </option>
+
+                        <option value="Technical">
+                            Technical
+                        </option>
+
+                        <option value="Persuasive">
+                            Persuasive
+                        </option>
+
+                        <option value="Business">
+                            Business
+                        </option>
+
+                        <option value="Journalism">
+                            Journalism
+                        </option>
+
+                        <option value="Scientific">
+                            Scientific
+                        </option>
+
+                        <option value="Grant">
+                            Grant
+                        </option>
+
+                        <option value="Script">
+                            Script
+                        </option>
+
+                        <option value="Play">
+                            Play
+                        </option>
+
+                        <option value="Screenplay">
+                            Screenplay
+                        </option>
+
+                        <option value="Comedy">
+                            Comedy
+                        </option>
+
+                        <option value="Horror">
+                            Horror
+                        </option>
+
+                        <option value="Fantasy">
+                            Fantasy
+                        </option>
+
+                        <option value="Romance">
+                            Romance
+                        </option>
+
+                        <option value="Mystery">
+                            Mystery
+                        </option>
+
+                        <option value="Memoir">
+                            Memoir
+                        </option>
+
+                        <option value="Biography">
+                            Biography
+                        </option>
+
+                        <option value="Autobiography">
+                            Autobiography
+                        </option>
+
+                        <option value="Historical">
+                            Historical
+                        </option>
+
+                        <option value="Travel">
+                            Travel
+                        </option>
+
+                        <option value="Food">
+                            Food
+                        </option>
+
+                        <option value="Fashion">
+                            Fashion
+                        </option>
+
+                        <option value="Sports">
+                            Sports
+                        </option>
+
+                        <option value="Music">
+                            Music
+                        </option>
+
+                        <option value="Opinion">
+                            Opinion
+                        </option>
+
+                        <option value="Analytical">
+                            Analytical
+                        </option>
+
+                        <option value="Argumentative">
+                            Argumentative
+                        </option>
+
+                        <option value="Conversational">
+                            Conversational
+                        </option>
+
+                        <option value="Epigrammatic">
+                            Epigrammatic
+                        </option>
+
+                        <option value="Epistolary">
+                            Epistolary
+                        </option>
+
+                        <option value="Informative">
+                            Informative
+                        </option>
+
+                        <option value="Instructive">
+                            Instructive
+                        </option>
+
+                        <option value="Journalistic">
+                            Journalistic
+                        </option>
+
+                        <option value="Metaphorical">
+                            Metaphorical
+                        </option>
+
+                        <option value="Persuasive">
+                            Persuasive
+                        </option>
+
+                        <option value="Poetic">
+                            Poetic
+                        </option>
+
+                        <option value="Satirical">
+                            Satirical
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group"></div>
+                <input class="form-control" type="text" id="prompt" name="prompt"
+                       placeholder="Type your message...">
+
+                <button class="btn btn-primary" type="submit" id="send-btn">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+{% endblock %}

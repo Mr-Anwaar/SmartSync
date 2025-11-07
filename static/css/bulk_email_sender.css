@@ -1,0 +1,68 @@
+/* bulk_email_sender.css */
+.container {
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-group textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.form-group input[type="file"] {
+  display: inline;
+}
+
+.form-group button {
+  display: block;
+  padding: 10px 20px;
+  background-color: #6C55F9;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+/* Style for the form group container */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Style for the label */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style for the select dropdown */
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Style for the options within the select dropdown */
+select option {
+  padding: 5px;
+}
+
+.email-input {
+  display: none; /* Hide the email inputs by default */
+}
+
+#email_option option:checked ~ #comma_separated_email {
+  display: block; /* Show the comma-separated email input when the corresponding option is selected */
+}
+
+#email_option option:checked ~ #csv_file_email {
+  display: block; /* Show the CSV file email input when the corresponding option is selected */
+}
