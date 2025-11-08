@@ -3,6 +3,6 @@ dump.rdb
 celerybeat-schedule.bak
 celerybeat-schedule.dat
 celerybeat-schedule.dir
-#FYP.drawio
 uploads
 qodana.yaml
+.idea/
