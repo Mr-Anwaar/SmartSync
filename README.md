@@ -78,7 +78,7 @@ Unlike expensive, fragmented SaaS tools, SmartSync is:
 
 ## 📸 UI Showcase
 
-![Dashboard](docs/images/dashboard.jpg)
+![Dashboard](docs/images/dashboard.png)
 ![Chatbot/Content Generator](docs/images/chatbot.jpg)
 ![Translator](docs/images/translator.jpg)
 ![Invoicing](docs/images/invoicing.jpg)
