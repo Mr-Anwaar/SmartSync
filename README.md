@@ -79,10 +79,10 @@ Unlike expensive, fragmented SaaS tools, SmartSync is:
 ## 📸 UI Showcase
 
 ![Dashboard](docs/images/dashboard.png)
-![Chatbot/Content Generator](docs/images/chatbot.jpg)
-![Translator](docs/images/translator.jpg)
-![Invoicing](docs/images/invoicing.jpg)
-![Email Automation](docs/images/email-automation.jpg)
+![Chatbot/Content Generator](docs/images/chatbot.png)
+![Translator](docs/images/translator.png)
+![Invoicing](docs/images/invoicing.png)
+![Email Automation](docs/images/email-automation.png)
 
 ---
 
